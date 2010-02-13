@@ -7,6 +7,11 @@ public class PluploadBuilder {
 	private JavaScriptObject settings = JavaScriptObject.createObject();
 	private PluploadListener listener = null;
 
+	public PluploadBuilder runtime(String runtime) {
+		addRuntime(runtime);
+		return this;
+	}
+
 	public PluploadBuilder runtimes(String runtimes) {
 		set("runtimes", runtimes);
 		return this;
@@ -136,6 +141,12 @@ public class PluploadBuilder {
 
 	private native void set(String name, String value) /*-{
 		this.@plupload.client.PluploadBuilder::settings[name] = value;
+	}-*/;
+
+	private native void addRuntime(String runtime) /*-{
+		if (this.@plupload.client.PluploadBuilder::settings['runtimes'] && this.@plupload.client.PluploadBuilder::settings['runtimes'].length > 0)
+			this.@plupload.client.PluploadBuilder::settings['runtimes'] = this.@plupload.client.PluploadBuilder::settings['runtimes'] + ",";
+		this.@plupload.client.PluploadBuilder::settings['runtimes'] = this.@plupload.client.PluploadBuilder::settings['runtimes'] + runtime;
 	}-*/;
 
 	private native void addFilters(String title, String extensions) /*-{
