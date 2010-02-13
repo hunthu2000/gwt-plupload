@@ -1,0 +1,89 @@
+<project name="Plupload" default="compile">
+	<property file="build.properties" />
+	
+	<property name="project.name" value="Plupload" />
+	<property name="public.module.name" value="plupload" />
+	<property name="module.name" value="plupload.Plupload" />
+
+	<property name="src.dir" location="${root.dir}/plupload" />
+	<property name="build.dir" location="${root.dir}/build" />
+	
+	<condition property="gwt.jvm.arg" value="-d32 -XstartOnFirstThread -Xmx512m" else="-Xmx512m -Xss1024k">
+		<os name="Mac OS X"/>  
+	</condition>
+
+	<path id="gwt-user.classpath">
+		<pathelement location="${gwt.sdk.location}/gwt-user.jar"/>
+	</path>
+
+	<path id="gwt-dev.classpath">
+		<fileset dir="${gwt.sdk.location}" includes="gwt-dev*.jar"/>
+	</path>
+  
+	<path id="compile.classpath">  
+		<pathelement path="${java.class.path}/" />
+		<path refid="gwt-user.classpath"/>
+		<path refid="gwt-dev.classpath"/>  
+		<pathelement location="${src.dir}" />
+		<pathelement location="${build.dir}"/>
+	</path>
+	  
+	<patternset id="compiler.resources">
+		<include name="**/?*.xml"/>
+	</patternset>
+  
+	<target name="init">  
+		<tstamp />
+		<filter token="projectName" value="${project.name}" />
+	</target>
+
+	<target name="clean" description="Cleans the entire GWT build">
+		<delete dir="${build.dir}" />
+		
+		<delete>
+			<fileset dir="${src.dir}" includes="**/*.class"/>
+		</delete>
+	</target>
+
+	<target name="jar" depends="init, compile">
+		<mkdir dir="${build.dir}/temp/plupload/" />
+		<copy todir="${build.dir}/temp/plupload/">
+			<fileset dir="${src.dir}">
+			</fileset>
+		</copy>
+		
+		<!--copy todir="${build.dir}/plupload/">
+			<fileset dir="${src.dir}">
+				<include name="**/*.xml" />
+			</fileset>
+		</copy-->
+		
+		<jar destfile="${build.dir}/gwt-plupload.jar">
+			<fileset dir="${build.dir}/temp">
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="compile.gwt" depends="init, compile">
+		<echo>Platform: ${os.name}</echo>
+		
+		<java classpathref="compile.classpath" failonerror="true" classname="com.google.gwt.dev.Compiler" fork="true">
+			<jvmarg line="${gwt.jvm.arg}" />
+			<arg value="-war" />
+			<arg value="${build.dir}" />
+			<arg value="-logLevel" />
+			<arg value="INFO" />
+			<arg value="-localWorkers" />
+			<arg value="4" />
+			<arg value="-style" />
+			<arg value="${gwt.style}" />		
+			<arg value="${gwt.module}" />
+		</java>
+	</target>
+		
+	<target name="compile">
+		<delete dir="${build.dir}" />
+		<mkdir dir="${build.dir}" />
+		<javac classpathref="compile.classpath" srcdir="${src.dir}" failonerror="true" fork="true" debuglevel="lines,vars,source" source="1.5" target="1.5" />		
+	</target>
+</project>
