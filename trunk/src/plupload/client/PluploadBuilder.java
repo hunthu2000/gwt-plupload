@@ -144,8 +144,12 @@ public class PluploadBuilder {
 	}-*/;
 
 	private native void addRuntime(String runtime) /*-{
-		if (this.@plupload.client.PluploadBuilder::settings['runtimes'] && this.@plupload.client.PluploadBuilder::settings['runtimes'].length > 0)
+		if (!this.@plupload.client.PluploadBuilder::settings['runtimes'])
+			this.@plupload.client.PluploadBuilder::settings['runtimes'] = '';
+
+		if (this.@plupload.client.PluploadBuilder::settings['runtimes'].length > 0)
 			this.@plupload.client.PluploadBuilder::settings['runtimes'] = this.@plupload.client.PluploadBuilder::settings['runtimes'] + ",";
+			
 		this.@plupload.client.PluploadBuilder::settings['runtimes'] = this.@plupload.client.PluploadBuilder::settings['runtimes'] + runtime;
 	}-*/;
 
