@@ -26,8 +26,8 @@ public final class File extends JavaScriptObject {
 		return this.size;
 	}-*/;
 
-	public final Status getStatus() {
-		return Status.values()[getStatusValue() - 1];
+	public final FileStatus getStatus() {
+		return FileStatus.fromIntValue(getStatusValue());
 	}
 
 	private native int getStatusValue() /*-{

@@ -25,7 +25,6 @@
 		<path refid="gwt-user.classpath"/>
 		<path refid="gwt-dev.classpath"/>  
 		<pathelement location="${src.dir}" />
-		<pathelement location="${build.dir}"/>
 	</path>
 	  
 	<patternset id="compiler.resources">
