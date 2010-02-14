@@ -42,6 +42,11 @@ public class PluploadBuilder {
 		return this;
 	}
 
+	public PluploadBuilder dragAndDropTarget(String targetId) {
+		set("drop_element", targetId);
+		return this;
+	}
+
 	public PluploadBuilder maxFileSize(String size) {
 		set("max_file_size", size);
 		return this;
@@ -149,7 +154,7 @@ public class PluploadBuilder {
 
 		if (this.@plupload.client.PluploadBuilder::settings['runtimes'].length > 0)
 			this.@plupload.client.PluploadBuilder::settings['runtimes'] = this.@plupload.client.PluploadBuilder::settings['runtimes'] + ",";
-			
+
 		this.@plupload.client.PluploadBuilder::settings['runtimes'] = this.@plupload.client.PluploadBuilder::settings['runtimes'] + runtime;
 	}-*/;
 
