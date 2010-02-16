@@ -1,0 +1,6 @@
+#summary How to install
+
+= How to Install =
+
+  # Download gwt-plupload jar
+  # Copy jar to your lib folder, and include it in build path
