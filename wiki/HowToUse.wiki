@@ -1,4 +1,5 @@
 #summary How to Use
+#labels Featured
 
 = How to Use Plupload =
 
