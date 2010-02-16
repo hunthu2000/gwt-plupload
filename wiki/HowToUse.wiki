@@ -1,0 +1,25 @@
+#summary How to Use
+
+= How to Use gwt-plupload =
+
+1. Create your file uploader UI as you like. For the add files button (can be any element, such as label or plain div), assign some specific id:
+
+{{{
+browseButton.getElement().setId("my-browse-button");
+}}}
+
+2. Create your plupload with gwt-plupload builder
+
+{{{
+PluploadBuilder builder = new PluploadBuilder();
+// ADD ANY PLUPLOAD PROPERTIES HERE
+builder.uploadUrl("server/upload.php");
+builder.browseButton("my-browse-button");
+Plupload plupload = builder.create();
+}}}
+
+3. After user has added the files to be uploaded, start the upload
+
+{{{
+plupload.start();
+}}}
