@@ -3,4 +3,8 @@
 = How to Install =
 
   # Download gwt-plupload jar
-  # Copy jar to your lib folder, and include it in build path
+  # Copy jar to your lib folder
+  # Include jar in build path
+  # Add following line into module XML `<inherits name="plupload.Plupload"/>`
+
+Now the wrapper is ready to use
