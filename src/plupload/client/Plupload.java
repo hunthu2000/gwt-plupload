@@ -22,6 +22,30 @@ public final class Plupload extends JavaScriptObject {
 		this.refresh();
 	}-*/;
 
+	public native String getId() /*-{
+		this.id;
+	}-*/;
+
+	public PluploadState getState() {
+		return PluploadState.values()[getStateNr() - 1];
+	}
+
+	private native int getStateNr() /*-{
+		this.id;
+	}-*/;
+
+	public native QueueProgress getTotal() /*-{
+		this.total;
+	}-*/;
+
+	public List<File> getFiles() {
+		return asList(getFileList(), File.class);
+	}
+
+	private native JsArray<File> getFileList()/*-{
+		return this.files();
+	}-*/;
+
 	public native File getFile(String id) /*-{
 		return this.getFile(id);
 	}-*/;
