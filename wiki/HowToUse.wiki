@@ -1,6 +1,12 @@
 #summary How to Use
 
+= How to Use Plupload =
+
+Before starting to use gwt-plupload, first learn how to use [http://www.plupload.com/ Plupload] itself. Gwt-plupload is only a wrapper to the properties and callbacks Plupload offers, so it is important to understand how it works.
+
 = How to Use gwt-plupload =
+
+In a nutshell, this is how Plupload is integrated into GWT application:
 
 1. Create your file uploader UI as you like. For the add files button (can be any element, such as label or plain div), assign some specific id:
 
@@ -23,3 +29,39 @@ Plupload plupload = builder.create();
 {{{
 plupload.start();
 }}}
+
+== How to Use Builder ==
+
+Builder is a fluent builder, which means you can chain the properties:
+
+{{{
+Plupload plupload = new PluploadBuilder().uploadUrl("server/upload.php").browseButton("my-browse-button").create();
+}}}
+
+All properties must be set to builder before calling "create", the Plupload instance cannot be modified.
+
+Builder has following API:
+
+  * `runtime(String runtime)`; Add one runtime to runtime list
+
+  * `runtimes(String runtimes)`: Set the entire runtime list
+
+  * `flashUrl(String url)`: Set the url to the Flash component
+
+  * `silverlightUrl(String url)`: Set the url to the Silverlight component
+
+  * `uploadUrl(String uploadUrl)`: Set the url to the server handling the upload
+
+  * `filter(String title, String extensions)`: Add a file filter
+
+  * `browseButton(String browseButtonId)`: Set the element id for adding files
+
+  * `dragAndDropTarget(String targetId)`: Set the element id for drag&drop
+
+  * `maxFileSize(String size)`: Set the maximum allowed file size
+
+  * `chunk(String size)`: Set the size of a chunk in chunked upload
+
+  * `listener(PluploadListener listener)`: Set the listener for Plupload callbacks
+
+  * `create(void)`: Create Plupload instance
