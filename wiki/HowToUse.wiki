@@ -39,8 +39,6 @@ Builder is a fluent builder, which means you can chain the properties:
 Plupload plupload = new PluploadBuilder().uploadUrl("server/upload.php").browseButton("my-browse-button").create();
 }}}
 
-All properties must be set to builder before calling "create", the Plupload instance cannot be modified.
-
 Builder has following API:
 
   * `runtime(String runtime)`; Add one runtime to runtime list
@@ -66,3 +64,31 @@ Builder has following API:
   * `listener(PluploadListener listener)`: Set the listener for Plupload callbacks
 
   * `create(void)`: Create Plupload instance
+
+The API for the Plupload objects are identical with the [http://www.plupload.com/plupload/docs/api/index.html Plupload native API].
+
+To listen events from Plupload, register Plupload listener implementation to the builder:
+
+{{{
+public interface PluploadListener {
+
+	void onInit(Plupload p, String runtime);
+
+	void postInit(Plupload p);
+
+	void onFilesAdded(Plupload p, List<File> files);
+
+	void onFilesRemoved(Plupload p, List<File> files);
+
+	void onQueueChanged(Plupload p);
+
+	void onRefresh(Plupload p);
+
+	void onStateChanged(Plupload p);
+
+	void onFileUpload(Plupload p, File file);
+
+	void onFileUploadProgress(Plupload p, File file);
+
+}
+}}}
