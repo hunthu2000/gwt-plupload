@@ -1,5 +1,7 @@
 package plupload.client;
 
+import java.util.Map;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 
@@ -44,6 +46,21 @@ public class PluploadBuilder {
 
 	public PluploadBuilder dragAndDropTarget(String targetId) {
 		set("drop_element", targetId);
+		return this;
+	}
+
+	public PluploadBuilder container(String elementId) {
+		set("container", elementId);
+		return this;
+	}
+
+	public PluploadBuilder multipart(boolean multipart) {
+		set("multipart", multipart);
+		return this;
+	}
+
+	public PluploadBuilder multipartParams(Map<String, Object> params) {
+		// set("multipart_params", params);
 		return this;
 	}
 
@@ -145,6 +162,10 @@ public class PluploadBuilder {
 	}-*/;
 
 	private native void set(String name, String value) /*-{
+		this.@plupload.client.PluploadBuilder::settings[name] = value;
+	}-*/;
+
+	private native void set(String name, boolean value) /*-{
 		this.@plupload.client.PluploadBuilder::settings[name] = value;
 	}-*/;
 
