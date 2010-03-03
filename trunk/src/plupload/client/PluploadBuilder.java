@@ -1,6 +1,7 @@
 package plupload.client;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -8,6 +9,15 @@ import com.google.gwt.core.client.JsArray;
 public class PluploadBuilder {
 	private JavaScriptObject settings = JavaScriptObject.createObject();
 	private PluploadListener listener = null;
+
+	public PluploadBuilder() {
+		init();
+	}
+
+	private native void init() /*-{
+		this.@plupload.client.PluploadBuilder::settings['multipart'] = false;
+		this.@plupload.client.PluploadBuilder::settings['multipart_params'] = {};
+	}-*/;
 
 	public PluploadBuilder runtime(String runtime) {
 		addRuntime(runtime);
@@ -59,8 +69,14 @@ public class PluploadBuilder {
 		return this;
 	}
 
-	public PluploadBuilder multipartParams(Map<String, Object> params) {
-		// set("multipart_params", params);
+	public PluploadBuilder multipartParam(String p, JavaScriptObject value) {
+		addMultipartParam(p, value);
+		return this;
+	}
+
+	public PluploadBuilder multipartParams(Map<String, JavaScriptObject> params) {
+		for (Entry<String, JavaScriptObject> e : params.entrySet())
+			addMultipartParam(e.getKey(), e.getValue());
 		return this;
 	}
 
@@ -183,6 +199,10 @@ public class PluploadBuilder {
 		if (!this.@plupload.client.PluploadBuilder::settings['filters'])
 			this.@plupload.client.PluploadBuilder::settings['filters'] = [];
 		this.@plupload.client.PluploadBuilder::settings['filters'].push({title:title, extensions: extensions});
+	}-*/;
+
+	private native void addMultipartParam(String p, JavaScriptObject v) /*-{
+		this.@plupload.client.PluploadBuilder::settings['multipart_params'][p] = v;
 	}-*/;
 
 	@SuppressWarnings("unused")
