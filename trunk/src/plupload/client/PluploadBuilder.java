@@ -169,11 +169,40 @@ public class PluploadBuilder {
 				listener.onFileUploadProgress(pl, (File) p.cast());
 			}
 		}));
+
+		uploader.bind("FileUploaded", createFunc(new Callback2() {
+			@Override
+			public void onCallback(Plupload pl, JavaScriptObject p,
+					JavaScriptObject r) {
+				listener.onFileUploaded(pl, (File) p.cast(), r);
+			}
+		}));
+
+		uploader.bind("ChunkUploaded", createFunc(new Callback2() {
+			@Override
+			public void onCallback(Plupload pl, JavaScriptObject p,
+					JavaScriptObject r) {
+				listener.onChunkUploaded(pl, (File) p.cast(), r);
+			}
+		}));
+
+		uploader.bind("Error", createFunc(new Callback() {
+			@Override
+			public void onCallback(Plupload pl, JavaScriptObject e) {
+				listener.onError(pl, e);
+			}
+		}));
 	}
 
 	private native JavaScriptObject createFunc(Callback callback) /*-{
 		return function(uploader, p) {
 			@plupload.client.PluploadBuilder::fireCallback(Lplupload/client/PluploadBuilder$Callback;Lplupload/client/Plupload;Lcom/google/gwt/core/client/JavaScriptObject;)(callback, uploader, p);
+		};
+	}-*/;
+
+	private native JavaScriptObject createFunc(Callback2 callback) /*-{
+		return function(uploader, p, r) {
+			@plupload.client.PluploadBuilder::fireCallback(Lplupload/client/PluploadBuilder$Callback2;Lplupload/client/Plupload;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(callback, uploader, p, r);
 		};
 	}-*/;
 
@@ -211,8 +240,18 @@ public class PluploadBuilder {
 		cb.onCallback(pl, p);
 	}
 
+	@SuppressWarnings("unused")
+	private static void fireCallback(Callback2 cb, Plupload pl,
+			JavaScriptObject p, JavaScriptObject r) {
+		cb.onCallback(pl, p, r);
+	}
+
 	public interface Callback {
 		void onCallback(Plupload pl, JavaScriptObject p);
+	}
+
+	public interface Callback2 {
+		void onCallback(Plupload pl, JavaScriptObject p, JavaScriptObject r);
 	}
 
 	protected native String getString(JavaScriptObject p, String name) /*-{
