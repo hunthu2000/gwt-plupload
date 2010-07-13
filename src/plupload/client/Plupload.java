@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsArrayString;
 
 public final class Plupload extends JavaScriptObject {
 	static native Plupload create(JavaScriptObject settings) /*-{
@@ -24,6 +25,18 @@ public final class Plupload extends JavaScriptObject {
 
 	public native String getId() /*-{
 		this.id;
+	}-*/;
+
+	public native JavaScriptObject getSettings() /*-{
+		this.settings;
+	}-*/;
+
+	public List<String> getFeatures() {
+		return asList(this.getFeatureList());
+	}
+
+	public native JsArrayString getFeatureList() /*-{
+		this.features;
 	}-*/;
 
 	public PluploadState getState() {
@@ -85,4 +98,14 @@ public final class Plupload extends JavaScriptObject {
 			result.add((T) array.get(index));
 		return result;
 	}
+
+	@SuppressWarnings("unchecked")
+	public static List<String> asList(JsArrayString array) {
+		List<String> list = new ArrayList();
+		int s = array.length();
+		for (int i = 0; i < s; i++)
+			list.add(array.get(i));
+		return list;
+	}
+
 }
