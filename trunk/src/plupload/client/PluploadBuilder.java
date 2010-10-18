@@ -121,8 +121,8 @@ public class PluploadBuilder {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void onCallback(Plupload pl, JavaScriptObject p) {
-				listener.onFilesAdded(pl, Plupload.asList((JsArray) p.cast(),
-						File.class));
+				listener.onFilesAdded(pl,
+						Plupload.asList((JsArray) p.cast(), File.class));
 			}
 		}));
 
@@ -130,8 +130,8 @@ public class PluploadBuilder {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void onCallback(Plupload pl, JavaScriptObject p) {
-				listener.onFilesRemoved(pl, Plupload.asList((JsArray) p.cast(),
-						File.class));
+				listener.onFilesRemoved(pl,
+						Plupload.asList((JsArray) p.cast(), File.class));
 			}
 		}));
 
@@ -234,13 +234,11 @@ public class PluploadBuilder {
 		this.@plupload.client.PluploadBuilder::settings['multipart_params'][p] = v;
 	}-*/;
 
-	@SuppressWarnings("unused")
 	private static void fireCallback(Callback cb, Plupload pl,
 			JavaScriptObject p) {
 		cb.onCallback(pl, p);
 	}
 
-	@SuppressWarnings("unused")
 	private static void fireCallback(Callback2 cb, Plupload pl,
 			JavaScriptObject p, JavaScriptObject r) {
 		cb.onCallback(pl, p, r);
