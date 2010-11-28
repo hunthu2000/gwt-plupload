@@ -17,6 +17,7 @@ public class PluploadBuilder {
 	private native void init() /*-{
 		this.@plupload.client.PluploadBuilder::settings['multipart'] = false;
 		this.@plupload.client.PluploadBuilder::settings['multipart_params'] = {};
+		this.@plupload.client.PluploadBuilder::settings['headers'] = {};
 	}-*/;
 
 	public PluploadBuilder runtime(String runtime) {
@@ -69,8 +70,18 @@ public class PluploadBuilder {
 		return this;
 	}
 
+	public PluploadBuilder uniqueNames(boolean uniqueNames) {
+		set("unique_names", uniqueNames);
+		return this;
+	}
+
 	public PluploadBuilder multipartParam(String p, JavaScriptObject value) {
 		addMultipartParam(p, value);
+		return this;
+	}
+
+	public PluploadBuilder requiredFeatures(String features) {
+		set("required_features", features);
 		return this;
 	}
 
@@ -92,6 +103,17 @@ public class PluploadBuilder {
 
 	public PluploadBuilder listener(PluploadListener listener) {
 		this.listener = listener;
+		return this;
+	}
+
+	public PluploadBuilder header(Map<String, String> params) {
+		for (Entry<String, String> e : params.entrySet())
+			addHeader(e.getKey(), e.getValue());
+		return this;
+	}
+
+	public PluploadBuilder header(String name, String value) {
+		addHeader(name, value);
 		return this;
 	}
 
@@ -153,6 +175,13 @@ public class PluploadBuilder {
 			@Override
 			public void onCallback(Plupload pl, JavaScriptObject p) {
 				listener.onStateChanged(pl);
+			}
+		}));
+
+		uploader.bind("BeforeUpload", createFunc(new Callback() {
+			@Override
+			public void onCallback(Plupload pl, JavaScriptObject p) {
+				listener.onBeforeUpload(pl, (File) p.cast());
 			}
 		}));
 
@@ -232,6 +261,10 @@ public class PluploadBuilder {
 
 	private native void addMultipartParam(String p, JavaScriptObject v) /*-{
 		this.@plupload.client.PluploadBuilder::settings['multipart_params'][p] = v;
+	}-*/;
+
+	private native void addHeader(String p, String v) /*-{
+		this.@plupload.client.PluploadBuilder::settings['headers'][p] = v;
 	}-*/;
 
 	private static void fireCallback(Callback cb, Plupload pl,

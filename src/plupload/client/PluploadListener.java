@@ -20,6 +20,8 @@ public interface PluploadListener {
 
 	void onStateChanged(Plupload p);
 
+	void onBeforeUpload(Plupload pl, File cast);
+
 	void onFileUpload(Plupload p, File file);
 
 	void onFileUploadProgress(Plupload p, File file);
